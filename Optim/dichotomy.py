@@ -13,5 +13,6 @@ while (b - a)/2 >= eps:
         b = (b + a)/2
     else:
         a = (b + a)/2
+
 print("В качестве минимума можно принять f(x) = {}, в точке x = {}".format(targetFunc((b + a)/2), (b + a)/2))
 
