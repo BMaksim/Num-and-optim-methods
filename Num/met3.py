@@ -35,14 +35,14 @@ def approx(X0, Y0, X1, approx_type: ApproxType, dim):
     if approx_type is ApproxType.algebraic:
         Q = np.vander(X0, dim, increasing=True)
         mat = Q.T @ Q
-        b = np.dot(Q.T, Y0)
+        b = Q.T @ Y0
         P = np.linalg.solve(mat, b)
         y = polyval(X1, P)
         return y, [], P
     if approx_type is ApproxType.legendre:
         Q = legvander(X0, dim - 1)
         mat = Q.T @ Q
-        b = np.dot(Q.T, Y0)
+        b = Q.T @ Y0
         P = np.linalg.solve(mat, b)
         y = legval(X1, P)
         return y, [], P
