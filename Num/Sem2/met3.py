@@ -3,6 +3,15 @@ from enum import Enum
 from numpy.polynomial.polynomial import polyval
 from numpy.polynomial.legendre import legval, legvander
 
+def legandr(x, n):
+        if n == 0:
+            return 1
+        if n == 1:
+            return x
+        else:
+            return ((2 * n - 1) / (n)) * x * legandr(x, n - 1) - ((n - 1) / n) * legandr(x, n - 2)
+
+
 
 class ApproxType(Enum):
     algebraic = 0
@@ -14,7 +23,7 @@ def func(x):
     """
     this method should implement VECTORIZED target function
     """
-    return 3*x + np.cos(x + 1)
+    return abs(3*x + np.sin(x))
 
 
 def approx(X0, Y0, X1, approx_type: ApproxType, dim):
@@ -45,7 +54,24 @@ def approx(X0, Y0, X1, approx_type: ApproxType, dim):
         b = Q.T @ Y0
         P = np.linalg.solve(mat, b)
         y = legval(X1, P)
-        return y, [], P
+
+        D = [[0 for i in range(dim)] for j in range(dim)]
+        D[0][0] = 1
+        D[0][1] = 0
+        D[1][0] = 0                                                               
+        D[1][1] = 1                                                             
+        i = 2                                  
+        while i < (dim):
+            D[i][0] = -(i-1)/(i)*D[i-2][0]  
+            j = 0
+            while j <= i:
+                D[i][j] = (2*i-1)/i*D[i-1][j-1] - (i-1)/i*D[i-2][j]
+                j+=1
+            i+=1    
+        D = np.array(D)
+        G = P @ D
+
+        return y, P, G
     raise Exception(f'approximation of type {approx_type} not supported yet')
 
     

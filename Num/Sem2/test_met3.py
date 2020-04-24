@@ -7,7 +7,7 @@ import met3
 def test_met3():
     print(f'running met3 test')
     N = 5
-    dim = 3
+    dim = 5
     M = 101
 
     x0 = np.linspace(-1, 1, N)
@@ -25,7 +25,7 @@ def test_met3():
     y_legpoly, _, p_legpoly = met3.approx(x0, y0, x1, met3.ApproxType.legendre, dim)
     assert(len(p_legpoly) == dim), f'polynome length should be {dim}'
     assert(all(abs(y1 - y_legpoly) < 1)), 'legendre polynome approximation is too bad'
-    # assert(all(abs(p_algpoly - p_legpoly) < 1e-3))
+    assert(all(abs(p_algpoly - p_legpoly) < 1e-3))
 
     plt.figure(1)
     plt.title('Y(X)')
@@ -40,3 +40,5 @@ def test_met3():
     plt.plot(x1, -np.log10(np.abs(y1 - y_legpoly)), 'g:*', label='legendre')
     plt.legend()
     plt.show()
+
+    print(p_algpoly, p_legpoly)

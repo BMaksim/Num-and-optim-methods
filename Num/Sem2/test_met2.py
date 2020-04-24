@@ -10,7 +10,7 @@ default_student = 7
 @pytest.mark.parametrize("student", [default_student])
 def test_met2(student):
     print(f'running met2 test for student #{student}')
-    N = 5
+    N = 20
     M = 10*N
     A = 1  # change to what you prefer
     B = 10   # change to what you prefer
